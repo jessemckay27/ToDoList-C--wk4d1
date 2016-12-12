@@ -25,7 +25,7 @@ namespace ToDoList
 
     public void Dispose()
     {
-      Task.DeleteAll();
+      // Task.DeleteAll();
     }
   }
 }

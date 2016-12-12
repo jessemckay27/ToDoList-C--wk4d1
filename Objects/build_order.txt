@@ -1,0 +1,37 @@
+1) Setup initial files
+2) Setup database: todo
+    1> CREATE DATABASE todo;
+    2> GO
+    1> USE todo;
+    2> GO
+    1> CREATE TABLE tasks
+    2> (
+    3>   id INT IDENTITY (1,1),
+    4>   description VARCHAR(255)
+    5> );
+    6> GO
+
+3) Backup database with SSMS
+4) Restore database with new name: todo_test
+5) Add first test to TaskTest.cs
+    Test if database is empty
+6) Add Task class in Task.cs
+    Add placeholders for _id and _description
+    Add constructor for Task object
+    Add getters for _id and _description
+    Add setter for _description
+    add GetAll() method
+        1) setup empty list<task>
+        2) setup SqlConnection object: conn
+        3) open() connection
+        3) setup SqlCommand object to get all data from table: task;
+        4) setup SqlDataReader to execute SqlCommand
+        5) setup loop for rdr to GetAll() info from database
+        6) setup 2 placeholders to hold data
+        7) use data to construct object8
+        8) pass that object to empty list<task>
+        9) process repeats while until loop finishes in database
+        10) close SqlDataReader when loop is finished
+        11) close SqlConnection when loop is finished
+        12) return the newly finished list<task>
+7) pass first test, debug until working
