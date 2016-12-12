@@ -13,7 +13,7 @@
 
 3) Backup database with SSMS
 4) Restore database with new name: todo_test
-5) Add first test to TaskTest.cs
+5) Add 1st test to TaskTest.cs
     Test if database is empty
 6) Add Task class in Task.cs
     Add placeholders for _id and _description
@@ -35,3 +35,6 @@
         11) close SqlConnection when loop is finished
         12) return the newly finished list<task>
 7) pass first test, debug until working
+8) Setup 2nd test to TaskTest.cs
+    Test if two objects with same name are Equal
+    (tests the override method)

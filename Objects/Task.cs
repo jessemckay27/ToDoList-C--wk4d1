@@ -15,6 +15,20 @@ namespace ToDoList
       _id = Id;
     }
 
+    public override bool Equals(System.Object otherTask) //forces overide of default behavior to make two objects with same data equal
+    {
+      if (!(otherTask is Task))
+      {
+        return false;
+      }
+      else
+      {
+        Task newTask = (Task) otherTask;
+        bool descriptionEquality = (this.GetDescription() == newTask.GetDescription());
+        return (descriptionEquality);
+      }
+    }
+
     public int GetId() //returns description
     {
       return _id;
