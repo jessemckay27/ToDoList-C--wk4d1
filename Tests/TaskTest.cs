@@ -13,6 +13,16 @@ namespace ToDoList
       DBConfiguration.ConnectionString = "Data Source=desktop-ddsnb9e;Initial Catalog=todo_test;Integrated Security=SSPI;";
     }
 
+    [Fact]
+    public void Test_DatabaseEmptyAtFirst()
+    {
+      //Arrange, Act
+      int result = Task.GetAll().Count;
+
+      //Assert
+      Assert.Equal(0, result);
+    }
+
     public void Dispose()
     {
       Task.DeleteAll();
