@@ -23,6 +23,19 @@ namespace ToDoList
       Assert.Equal(0, result);
     }
 
+    [Fact]
+    public void Test_Equal_ReturnsTrueIfDescriptionsAreTheSame()
+    {
+      //Arrange, Act
+      Task firstTask = new Task("Mow the lawn");
+      Task secondTask = new Task("Mow the lawn");
+
+      //Assert
+      Assert.Equal(firstTask, secondTask);
+    }
+
+
+
     public void Dispose()
     {
       // Task.DeleteAll();
