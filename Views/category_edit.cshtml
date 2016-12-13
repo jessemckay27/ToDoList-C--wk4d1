@@ -9,3 +9,5 @@
   <button type="submit">Submit</button>
 </form>
 <h4><a href="/">Return home</a></h4>
+
+@* Since web browsers can only make GET and POST requests, we need some way to communicate to our app that even though the form is submitted with the POST method, the server should treat it like a PATCH request. That's what the line <input name="_method" type="hidden" value="PATCH"> is for. It's a common way for forms to communicate to the server to treat the request as a different method than the "real" one it's actually using. *@
