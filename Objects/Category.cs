@@ -178,17 +178,17 @@ namespace ToDoList
     }
     public void Update(string newName)
     {
-      SqlConnection conn = DB.Connection();
-      conn.Open();
+      SqlConnection conn = DB.Connection(); //new connection object
+      conn.Open(); //open connection
 
-      SqlCommand cmd = new SqlCommand("UPDATE categories SET name = @NewName OUTPUT INSERTED.name WHERE id = @CategoryId;", conn);
+      SqlCommand cmd = new SqlCommand("UPDATE categories SET name = @NewName OUTPUT INSERTED.name WHERE id = @CategoryId;", conn);  //new sqlcommand object, targets categories table, sets name to updated name, uses id to find
 
-      SqlParameter newNameParameter = new SqlParameter();
-      newNameParameter.ParameterName = "@NewName";
-      newNameParameter.Value = newName;
-      cmd.Parameters.Add(newNameParameter);
+      SqlParameter newNameParameter = new SqlParameter(); //new paramter object
+      newNameParameter.ParameterName = "@NewName";  //sets object name in sql query
+      newNameParameter.Value = newName;  // sets object name value to the updated name
+      cmd.Parameters.Add(newNameParameter); //adds parameter adds paramters to sqlcommand query object
 
-      SqlParameter categoryIdParameter = new SqlParameter();
+      SqlParameter categoryIdParameter = new SqlParameter(); // same as above example, but for id (instead of category)
       categoryIdParameter.ParameterName = "@CategoryId";
       categoryIdParameter.Value = this.GetId();
       cmd.Parameters.Add(categoryIdParameter);
