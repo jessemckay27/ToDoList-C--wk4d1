@@ -28,6 +28,11 @@ namespace ToDoList
         newCategory.Save();
         return View["success.cshtml"];
       };
+      Post["/categories/clear"] = _ => {
+        Category.DeleteAll();
+        // return View["cleared.cshtml"];  no cleared.cshtml in lesson plan, switched to success.cshtml
+        return View["success.cshtml"];
+      };
       Get["category/edit/{id}"] = parameters => {
         Category SelectedCategory = Category.Find(parameters.id);
         return View["category_edit.cshtml", SelectedCategory];
@@ -56,10 +61,10 @@ namespace ToDoList
         return View["success.cshtml"];
       };
 
-      Post["/tasks/delete"] = _ => {
+      Post["/tasks/clear"] = _ => {
         Task.DeleteAll();
-        // return View["cleared.cshtml"];  no cleared.cshtml exists with lesson plan, changed to success.csthml
         return View["success.cshtml"];
+        // return View["cleared.cshtml"];  no cleared.cshtml in lesson plan, switched to success.cshtml
       };
       Get["/categories/{id}"] = parameters => {
         Dictionary<string, object> model = new Dictionary<string, object>();
