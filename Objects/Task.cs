@@ -24,8 +24,9 @@ namespace ToDoList
       else
       {
         Task newTask = (Task) otherTask;
-        bool descriptionEquality = (this.GetDescription() == newTask.GetDescription());
-        return (descriptionEquality);
+        bool idEquality = (this.GetId() == newTask.GetId());
+        bool descriptionEquality = (this.GetDescription() == newTask.GetDescription()); //override for description
+        return (idEquality && descriptionEquality); //override for id
       }
     }
 
