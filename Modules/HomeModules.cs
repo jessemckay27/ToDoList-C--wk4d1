@@ -37,6 +37,15 @@ namespace ToDoList
         SelectedCategory.Update(Request.Form["category-name"]);
         return View["success.cshtml"];
       };
+      Get["category/delete/{id}"] = parameters => {
+        Category SelectedCategory = Category.Find(parameters.id);
+        return View["category_delete.cshtml", SelectedCategory];
+      };
+      Delete["category/delete/{id}"] = parameters => {
+        Category SelectedCategory = Category.Find(parameters.id);
+        SelectedCategory.Delete();
+        return View["success.cshtml"];
+      };
       Get["/tasks/new"] = _ => {
         List<Category> AllCategories = Category.GetAll();
         return View["tasks_form.cshtml", AllCategories];
