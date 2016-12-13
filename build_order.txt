@@ -4,13 +4,19 @@
     2> GO
     1> USE todo;
     2> GO
-    1> CREATE TABLE tasks
-    2> (
-    3>   id INT IDENTITY (1,1),
-    4>   description VARCHAR(255)
-    5> );
-    6> GO
-
+    Create a new table: tasks  (will be updating it, you could create it including category_id right here and remove ALTER command)
+      1> CREATE TABLE tasks
+      2> (
+      3>   id INT IDENTITY (1,1),
+      4>   description VARCHAR(255)
+      5> );
+      6> GO
+    Create a new table: categories
+      1) CREATE TABLE categories (id INT IDENTITY (1,1), name VARCHAR(255));
+      2) GO
+    Update table tasks to include a category id
+      1) ALTER TABLE tasks ADD category_id INT;
+      2) GO
 3) Backup database with SSMS
 4) Restore database with new name: todo_test
 5) Add 1st test to TaskTest.cs
@@ -80,4 +86,12 @@
     14) if rdr is done executing, close reader
     15) if connection is done executing, close connection
     16) return newly created object
-17)
+17) Add HomeModule routes;
+18) Add Views for all pages
+19) Export database:
+    1) right click on database>tasks>generate scripts
+    2) choose objects: set specific database objects, hit nexxt
+    3) select tables box, hit next
+    4) summary: advance> find: types of data to script dropdown, select which type you want, hit ok
+    5) summary: check options are correct, hit next
+20) to import database, open it in SSMS

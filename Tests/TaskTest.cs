@@ -1,8 +1,8 @@
 using Xunit;
-using System.Collections.Generic;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 
 namespace ToDoList
 {
@@ -10,7 +10,8 @@ namespace ToDoList
   {
     public ToDoTest()
     {
-      DBConfiguration.ConnectionString = "Data Source=desktop-ddsnb9e;Initial Catalog=todo_test;Integrated Security=SSPI;";
+      // DBConfiguration.ConnectionString = "Data Source=desktop-ddsnb9e;Initial Catalog=todo_test;Integrated Security=SSPI;";
+      DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=todo_test;Integrated Security=SSPI;";
     }
 
     [Fact]
@@ -69,7 +70,7 @@ namespace ToDoList
       //Assert
       Assert.Equal(testTask, foundTask);
     }
-    
+
     public void Dispose()
     {
       Task.DeleteAll();

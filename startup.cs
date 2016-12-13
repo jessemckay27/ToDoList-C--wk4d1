@@ -9,8 +9,10 @@ namespace ToDoList
 {
   public static class DBConfiguration
   {
- // public static string ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=todo;Integrated Security=SSPI";
-    public static string ConnectionString = "Data Source=desktop-ddsnb9e;Initial Catalog=todo;Integrated Security=SSPI";
+    // epicodus server
+    public static string ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=todo;Integrated Security=SSPI";
+    // home server
+    // public static string ConnectionString = "Data Source=desktop-ddsnb9e;Initial Catalog=todo;Integrated Security=SSPI";
   }
   public class Startup
   {

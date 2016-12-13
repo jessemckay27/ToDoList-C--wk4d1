@@ -17,7 +17,6 @@ namespace ToDoList
       _categoryId = CategoryId;
     }
 
-
     public override bool Equals(System.Object otherTask)
     {
       if (!(otherTask is Task))
@@ -33,7 +32,7 @@ namespace ToDoList
         return (idEquality && descriptionEquality && categoryEquality);
       }
     }
-    
+
     public int GetId()
     {
       return _id;
@@ -82,6 +81,7 @@ namespace ToDoList
       }
       return AllTasks;
     }
+
     public void Save()
     {
       SqlConnection conn = DB.Connection();
