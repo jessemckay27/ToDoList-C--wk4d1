@@ -105,6 +105,40 @@ namespace ToDoList
       }
     }
 
+    public static Task Find(int id)
+    {
+      SqlConnection conn = DB.Connection(); //new connection
+      conn.Open(); //open connection
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM tasks WHERE id = @TaskId;", conn);  // new command object
+      SqlParameter taskIdParameter = new SqlParameter(); //new parameter object
+      taskIdParameter.ParameterName = "@TaskId"; //identifies parametername in sql command (there can be more than 1)
+      taskIdParameter.Value = id.ToString(); // sets the value of the parameter name to be equal to the id it found
+      cmd.Parameters.Add(taskIdParameter); // add the new parameter to the new sql command object
+      SqlDataReader rdr = cmd.ExecuteReader(); // execute commands
+
+      int foundTaskId = 0;  //placeholder
+      string foundTaskDescription = null; //placeholder
+      while(rdr.Read())  //loop through database
+      {
+        foundTaskId = rdr.GetInt32(0);  //set placeholder id equal to column(0)
+        foundTaskDescription = rdr.GetString(1); //set placeholder id equal to column (1)
+      }
+
+      Task foundTask = new Task(foundTaskDescription, foundTaskId); //create new Task object
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+
+      return foundTask;
+    }
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();  //new connection
@@ -113,9 +147,6 @@ namespace ToDoList
       cmd.ExecuteNonQuery(); //execute command
       conn.Close();  //close
     }
-
-
-
 
   }
 }

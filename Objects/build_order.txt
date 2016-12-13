@@ -63,4 +63,16 @@
     2) call .Save(); on object
     3) create new task object using Task.Find() method, pass in original object.GetId() as argument
     4) check if two objects are equal
-16)
+16) Add find method
+    1) create new connection object
+    2) open connection
+    3) create new sql command object
+    4) create new parameter object
+    5) set parameter object name as the name in the Sql command
+    6) set the value of the paramaterName to be the value of the found id, pass as string to query
+    7) Adds() parameters to SqlCommand object
+    8) set placeholder for found id to 0;
+    9) set placeholder for found description to null;
+    10) loop through database
+    11) set id placeholder to value of column(0)
+    12) set description placeholder to value of column(1)
