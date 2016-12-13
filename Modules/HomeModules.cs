@@ -58,7 +58,8 @@ namespace ToDoList
 
       Post["/tasks/delete"] = _ => {
         Task.DeleteAll();
-        return View["cleared.cshtml"];
+        // return View["cleared.cshtml"];  no cleared.cshtml exists with lesson plan, changed to success.csthml
+        return View["success.cshtml"];
       };
       Get["/categories/{id}"] = parameters => {
         Dictionary<string, object> model = new Dictionary<string, object>();
