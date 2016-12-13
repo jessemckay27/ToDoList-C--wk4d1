@@ -41,3 +41,12 @@
 9) Add Equals method override;
 10) pass 2nd test, debug until working
 11) add Save() method to Task.cs
+    1) make new SqlConnection object
+    2) open connection
+    3) make new SqlCommand object, pass in sql command to insert data into column, and connection
+    4) make new SqlParameter object
+    5) sets ParameterName to the "do the dishes"
+        example:  sets ParameterName = "@TaskDescription"
+    6) sets Value to object.GetDescription()
+    7) Adds() parameters to SqlCommand object
+    8) executes sql command

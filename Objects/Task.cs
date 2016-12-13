@@ -80,25 +80,37 @@ namespace ToDoList
       conn.Open();  //opens connection
 
       SqlCommand cmd = new SqlCommand("INSERT INTO tasks (description) OUTPUT INSERTED.id VALUES (@TaskDescription);", conn);
-                                    //update | table:tasks | target   | returns new id  | new value | what to add |
+                                //     update    | table |column name| returns newly created id  |   what to add  |
       SqlParameter descriptionParameter = new SqlParameter();  //creates new parameter object
-      descriptionParameter.ParameterName = "@TaskDescription"; //sets parameter object name
-      descriptionParameter.Value = this.GetDescription();  //sets sql parameter alue
+
+      // We need to create a SqlParameter object for each parameter that we use in our SqlCommand. The ParameterName needs to match the parameter in the command string. The Value is what will replace the parameter in the command string when it is executed.
+
+      descriptionParameter.ParameterName = "@TaskDescription";
+      descriptionParameter.Value = this.GetDescription();
       cmd.Parameters.Add(descriptionParameter); // calls Add() on the cmd object, parmaters value, pases in descriptionParameter
       SqlDataReader rdr = cmd.ExecuteReader(); // executes commands
 
       while(rdr.Read()) //loop over database
       {
-        this._id = rdr.GetInt32(0); //
+        this._id = rdr.GetInt32(0); // since the output of our query is the task's ID, we want to save that value to our instance variable
       }
-      if (rdr != null)
+      if (rdr != null) //close if done
       {
         rdr.Close();
       }
-      if (conn != null)
+      if (conn != null) //close if done
       {
         conn.Close();
       }
+    }
+
+    public static void DeleteAll()
+    {
+      SqlConnection conn = DB.Connection();  //new connection
+      conn.Open();  //open connection
+      SqlCommand cmd = new SqlCommand("DELETE FROM tasks;", conn); //new command object to delete all
+      cmd.ExecuteNonQuery(); //execute command
+      conn.Close();  //close
     }
 
 
