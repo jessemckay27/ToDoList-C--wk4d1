@@ -76,3 +76,8 @@
     10) loop through database
     11) set id placeholder to value of column(0)
     12) set description placeholder to value of column(1)
+    13) create new Task object with placeholders
+    14) if rdr is done executing, close reader
+    15) if connection is done executing, close connection
+    16) return newly created object
+17)

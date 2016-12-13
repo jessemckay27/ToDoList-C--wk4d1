@@ -6,16 +6,19 @@ namespace ToDoList
 {
   public class Task
   {
-    private int _id;  //placeholder for constructor
-    private string _description; //placeholder for constructor
+    private int _id;
+    private string _description;
+    private int _categoryId;
 
-    public Task(string Description, int Id = 0)  //constructor for new task object
+    public Task(string Description, int CategoryId, int Id = 0)
     {
-      _description = Description;
       _id = Id;
+      _description = Description;
+      _categoryId = CategoryId;
     }
 
-    public override bool Equals(System.Object otherTask) //forces overide of default behavior to make two objects with same data equal
+
+    public override bool Equals(System.Object otherTask)
     {
       if (!(otherTask is Task))
       {
@@ -24,108 +27,123 @@ namespace ToDoList
       else
       {
         Task newTask = (Task) otherTask;
-        bool idEquality = (this.GetId() == newTask.GetId());
-        bool descriptionEquality = (this.GetDescription() == newTask.GetDescription()); //override for description
-        return (idEquality && descriptionEquality); //override for id
+        bool idEquality = this.GetId() == newTask.GetId();
+        bool descriptionEquality = this.GetDescription() == newTask.GetDescription();
+        bool categoryEquality = this.GetCategoryId() == newTask.GetCategoryId();
+        return (idEquality && descriptionEquality && categoryEquality);
       }
     }
-
-    public int GetId() //returns description
+    
+    public int GetId()
     {
       return _id;
     }
 
-    public string GetDescription() //returns description
+    public string GetDescription()
     {
       return _description;
     }
 
-    public void SetDescription(string newDescription) //sets description to new data
+    public int GetCategoryId()
     {
-      _description = newDescription;
+      return _categoryId;
+    }
+
+    public void SetCategoryId(int newCategoryId)
+    {
+      _categoryId = newCategoryId;
     }
 
     public static List<Task> GetAll()
     {
-      List<Task> allTasks = new List<Task>{};  //empty list to holds database objects
+      List<Task> AllTasks = new List<Task>{};
 
-      SqlConnection conn = DB.Connection(); //creates a connetion object using our database location
-      conn.Open();  //opens the connection
+      SqlConnection conn = DB.Connection();
+      conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT * FROM tasks;", conn); //holds SQL commands
-      SqlDataReader rdr = cmd.ExecuteReader(); //executes SQL commands
+      SqlCommand cmd = new SqlCommand("SELECT * FROM tasks;", conn);
+      SqlDataReader rdr = cmd.ExecuteReader();
 
-      while(rdr.Read())  // tells the connection when to stop executing when done
+      while(rdr.Read())
       {
-        int taskId = rdr.GetInt32(0); //placeholder for retrieved info
-        string taskDescription = rdr.GetString(1);  //placeholder for retrieved info
-        Task newTask = new Task(taskDescription, taskId); //instantiate new object using task constructor
-        allTasks.Add(newTask);  //add each object instantiated with database info into the empty list
+        int taskId = rdr.GetInt32(0);
+        string taskDescription = rdr.GetString(1);
+        int taskCategoryId = rdr.GetInt32(2);
+        Task newTask = new Task(taskDescription, taskCategoryId, taskId);
+        AllTasks.Add(newTask);
       }
-
-      if (rdr != null)  // if rdr stops executing
-      {
-        rdr.Close();  //close connection
-      }
-      if (conn != null) // if rdr stops executing
-      {
-        conn.Close(); //close connection
-      }
-
-      return allTasks; //return list of task objects generated from database info
-    }
-
-    public void Save() //GET MORE EXPLANATION ON THE PARAMETERS PART
-    {
-      SqlConnection conn = DB.Connection();  //makes new connection object
-      conn.Open();  //opens connection
-
-      SqlCommand cmd = new SqlCommand("INSERT INTO tasks (description) OUTPUT INSERTED.id VALUES (@TaskDescription);", conn);
-                                //     update    | table |column name| returns newly created id  |   what to add  |
-      SqlParameter descriptionParameter = new SqlParameter();  //creates new parameter object
-
-      // We need to create a SqlParameter object for each parameter that we use in our SqlCommand. The ParameterName needs to match the parameter in the command string. The Value is what will replace the parameter in the command string when it is executed.
-
-      descriptionParameter.ParameterName = "@TaskDescription";
-      descriptionParameter.Value = this.GetDescription();
-      cmd.Parameters.Add(descriptionParameter); // calls Add() on the cmd object, parmaters value, pases in descriptionParameter
-      SqlDataReader rdr = cmd.ExecuteReader(); // executes commands
-
-      while(rdr.Read()) //loop over database
-      {
-        this._id = rdr.GetInt32(0); // since the output of our query is the task's ID, we want to save that value to our instance variable
-      }
-      if (rdr != null) //close if done
+      if (rdr != null)
       {
         rdr.Close();
       }
-      if (conn != null) //close if done
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return AllTasks;
+    }
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO tasks (description, category_id) OUTPUT INSERTED.id VALUES (@TaskDescription, @TaskCategoryId);", conn);
+
+      SqlParameter descriptionParameter = new SqlParameter();
+      descriptionParameter.ParameterName = "@TaskDescription";
+      descriptionParameter.Value = this.GetDescription();
+
+      SqlParameter categoryIdParameter = new SqlParameter();
+      categoryIdParameter.ParameterName = "@TaskCategoryId";
+      categoryIdParameter.Value = this.GetCategoryId();
+
+      cmd.Parameters.Add(descriptionParameter);
+      cmd.Parameters.Add(categoryIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
       {
         conn.Close();
       }
     }
 
+    public override int GetHashCode()
+    {
+      return _description.GetHashCode();
+    }
+
     public static Task Find(int id)
     {
-      SqlConnection conn = DB.Connection(); //new connection
-      conn.Open(); //open connection
+      SqlConnection conn = DB.Connection();
+      conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT * FROM tasks WHERE id = @TaskId;", conn);  // new command object
-      SqlParameter taskIdParameter = new SqlParameter(); //new parameter object
-      taskIdParameter.ParameterName = "@TaskId"; //identifies parametername in sql command (there can be more than 1)
-      taskIdParameter.Value = id.ToString(); // sets the value of the parameter name to be equal to the id it found
-      cmd.Parameters.Add(taskIdParameter); // add the new parameter to the new sql command object
-      SqlDataReader rdr = cmd.ExecuteReader(); // execute commands
+      SqlCommand cmd = new SqlCommand("SELECT * FROM tasks WHERE id = @TaskId;", conn);
+      SqlParameter taskIdParameter = new SqlParameter();
+      taskIdParameter.ParameterName = "@TaskId";
+      taskIdParameter.Value = id.ToString();
+      cmd.Parameters.Add(taskIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
 
-      int foundTaskId = 0;  //placeholder
-      string foundTaskDescription = null; //placeholder
-      while(rdr.Read())  //loop through database
+      int foundTaskId = 0;
+      string foundTaskDescription = null;
+      int foundTaskCategoryId = 0;
+
+      while(rdr.Read())
       {
-        foundTaskId = rdr.GetInt32(0);  //set placeholder id equal to column(0)
-        foundTaskDescription = rdr.GetString(1); //set placeholder id equal to column (1)
+        foundTaskId = rdr.GetInt32(0);
+        foundTaskDescription = rdr.GetString(1);
+        foundTaskCategoryId = rdr.GetInt32(2);
       }
-
-      Task foundTask = new Task(foundTaskDescription, foundTaskId); //create new Task object
+      Task foundTask = new Task(foundTaskDescription, foundTaskCategoryId, foundTaskId);
 
       if (rdr != null)
       {
@@ -135,18 +153,16 @@ namespace ToDoList
       {
         conn.Close();
       }
-
       return foundTask;
     }
 
     public static void DeleteAll()
     {
-      SqlConnection conn = DB.Connection();  //new connection
-      conn.Open();  //open connection
-      SqlCommand cmd = new SqlCommand("DELETE FROM tasks;", conn); //new command object to delete all
-      cmd.ExecuteNonQuery(); //execute command
-      conn.Close();  //close
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("DELETE FROM tasks;", conn);
+      cmd.ExecuteNonQuery();
+      conn.Close();
     }
-
   }
 }
