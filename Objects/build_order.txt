@@ -50,3 +50,10 @@
     6) sets Value to object.GetDescription()
     7) Adds() parameters to SqlCommand object
     8) executes sql command
+12) Add DeleteAll method
+    1) new sql connection object
+    2) open connection
+    3) new sqlCommand(2 argumenents), pass SQL command and connection
+    4) call executenonQuery method on SqlCommand object.  (ExecuteNonQuery used for UPDATE, INSERT, or DELETE)
+    5) close connection
+13)
