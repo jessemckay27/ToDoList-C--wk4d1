@@ -73,5 +73,36 @@ namespace ToDoList
 
       return allTasks; //return list of task objects generated from database info
     }
+
+    public void Save() //GET MORE EXPLANATION ON THE PARAMETERS PART
+    {
+      SqlConnection conn = DB.Connection();  //makes new connection object
+      conn.Open();  //opens connection
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO tasks (description) OUTPUT INSERTED.id VALUES (@TaskDescription);", conn);
+                                    //update | table:tasks | target   | returns new id  | new value | what to add |
+      SqlParameter descriptionParameter = new SqlParameter();  //creates new parameter object
+      descriptionParameter.ParameterName = "@TaskDescription"; //sets parameter object name
+      descriptionParameter.Value = this.GetDescription();  //sets sql parameter alue
+      cmd.Parameters.Add(descriptionParameter); // calls Add() on the cmd object, parmaters value, pases in descriptionParameter
+      SqlDataReader rdr = cmd.ExecuteReader(); // executes commands
+
+      while(rdr.Read()) //loop over database
+      {
+        this._id = rdr.GetInt32(0); //
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+
+
+
   }
 }

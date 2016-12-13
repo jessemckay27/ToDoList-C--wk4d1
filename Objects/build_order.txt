@@ -38,3 +38,6 @@
 8) Setup 2nd test to TaskTest.cs
     Test if two objects with same name are Equal
     (tests the override method)
+9) Add Equals method override;
+10) pass 2nd test, debug until working
+11) add Save() method to Task.cs
