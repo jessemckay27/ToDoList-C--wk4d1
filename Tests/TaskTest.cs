@@ -51,6 +51,20 @@ namespace ToDoList
       Assert.Equal(testId, result);
     }
 
+    [Fact]
+    public void Test_Find_FindsTaskInDatabase()
+    {
+      //Arrange
+      Task testTask = new Task("Mow the lawn");
+      testTask.Save();
+
+      //Act
+      Task foundTask = Task.Find(testTask.GetId());
+
+      //Assert
+      Assert.Equal(testTask, foundTask);
+    }
+
     public void Dispose()
     {
       Task.DeleteAll();

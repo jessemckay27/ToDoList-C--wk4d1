@@ -56,4 +56,11 @@
     3) new sqlCommand(2 argumenents), pass SQL command and connection
     4) call executenonQuery method on SqlCommand object.  (ExecuteNonQuery used for UPDATE, INSERT, or DELETE)
     5) close connection
-13)
+13) Add Test for Save to Database
+14) update Equals to overide Id (before only overide description)
+15) Add test for Finding in database
+    1) create new task object, pass in "mow the lawn"
+    2) call .Save(); on object
+    3) create new task object using Task.Find() method, pass in original object.GetId() as argument
+    4) check if two objects are equal
+16)
